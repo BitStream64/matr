@@ -1,0 +1,20 @@
+{
+	"entry": "gamemodes/test.pwn",
+	"output": "gamemodes/test.amx",
+	"dependencies": [
+		"pawn-lang/samp-stdlib:0.3.7-R2-2-1"
+	],
+	"runtime": {},
+	"build": {
+		"name": "",
+		"compiler": {
+			"preset": "samp"
+		},
+		"args": [
+			"-d3",
+			"-O1",
+			"_console_included=1",
+			"-i${workspaceRoot}/API/"
+		]
+	}
+}
