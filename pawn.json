@@ -1,20 +1,31 @@
 {
+	"user": "\u003cnone\u003e",
+	"repo": "\u003clocal\u003e",
 	"entry": "gamemodes/test.pwn",
 	"output": "gamemodes/test.amx",
 	"dependencies": [
-		"pawn-lang/samp-stdlib:0.3.7-R2-2-1"
+		"pawn-lang/samp-stdlib:0.3.7-R2-2-1",
+		"pBlueG/SA-MP-MySQL:R41-4",
+		"pawn-lang/YSI-Includes:v5.10.0006",
+		"Y-Less/samp-plugin-crashdetect:v4.22",
+		"katursis/Pawn.CMD:3.4.0",
+		"samp-incognito/samp-streamer-plugin:v2.9.6",
+		"Y-Less/sscanf:v2.13.8",
+		"Southclaws/pawn-json:1.4.1"
 	],
 	"runtime": {},
 	"build": {
 		"name": "",
-		"compiler": {
-			"preset": "samp"
-		},
 		"args": [
 			"-d3",
-			"-O1",
+			"-O0",
 			"_console_included=1",
+			"TEST_BUILD=1",
+			"LINUX_BUILD=1",
 			"-i${workspaceRoot}/API/"
-		]
+		],
+		"compiler": {
+			"preset": "samp"
+		}
 	}
 }

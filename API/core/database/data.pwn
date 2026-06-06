@@ -1,0 +1,1 @@
+new MySQL:g_Database = MYSQL_INVALID_HANDLE;

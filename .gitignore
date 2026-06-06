@@ -11,3 +11,8 @@ sampctl_build_file.inc
 pawn.lock
 */.DS_Store
 .DS_Store
+logs/*
+plugins/*
+scriptfiles/config/*
+*.amx
+*.so
