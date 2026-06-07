@@ -32,7 +32,7 @@ hook stock Main() {
 	Greenhouse_CreateTable();
 
 	new interval = floatround(GREENHOUSE_HARVEST_INTERVAL / MAX_GREENHOUSE_PLANTS / _:GREENHOUSE_OBJECT_STATUS);
-	SetTimer(__nameof(Greenhouse_Process), interval * 1000, true);
-	dbg("Greenhouse_Process has been created");
+	SetTimer(__nameof(Greenhouse_ProcessAll), interval * 1000, true);
+	dbg("Greenhouse_ProcessAll has been created");
 	return continue();
 }

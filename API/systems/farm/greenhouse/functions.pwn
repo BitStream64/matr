@@ -42,11 +42,23 @@ stock Greenhouse_Update(this[GREENHOUSE]) {
 	return;
 }
 
-public Greenhouse_Process() {
+stock Greenhouse_Process(this[GREENHOUSE]) {
+	Greenhouse_Update(this);
+
+	new bool:improvements[GREENHOUSE_IMPROVEMENTS];
+	memcpy(improvements, this[GREENHOUSE_IMPROVEMENTS], 0, _:GREENHOUSE_IMPROVEMENTS * cellbytes);
+	if (improvements[GREENHOUSE_IMPROVE_X2]) {
+		Greenhouse_Update(this);
+	}
+
+	return;
+}
+
+public Greenhouse_ProcessAll() {
 	//dbg("Greenhouse_Process");
 	foreach (new playerid : g_iGreenhousePlayer) {
 		for (new gid = 0; gid < MAX_PLAYER_GREENHOUSE; gid++) {
-			Greenhouse_Update(g_Greenhouse[playerid][gid]);
+			Greenhouse_Process(g_Greenhouse[playerid][gid]);
 		}
 	}
 

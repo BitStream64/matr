@@ -11,8 +11,9 @@ public GreenhouseTest_Process() {
             }
 
             dbg("GreenhouseTest_Process | init gid = %i", gid);
-            g_Greenhouse[playerid][gid][GREENHOUSE_PRODUCT] = GREENHOUSE_PRODUCT_TYPE_TOMATO;
-            g_Greenhouse[playerid][gid][GREENHOUSE_SEEDS] = 50000;
+            g_Greenhouse[playerid][gid][GREENHOUSE_PRODUCT] = g_Greenhouse_Test[GREENHOUSE_TEST_PRODUCT];
+            g_Greenhouse[playerid][gid][GREENHOUSE_SEEDS] = g_Greenhouse_Test[GREENHOUSE_TEST_SEEDS];
+            memcpy(g_Greenhouse[playerid][gid][GREENHOUSE_IMPROVEMENTS], g_Greenhouse_Test[GREENHOUSE_TEST_IMPROVEMENTS], 0, _:GREENHOUSE_IMPROVEMENTS * cellbytes);
 
             for (new plantid = 0; plantid < MAX_GREENHOUSE_PLANTS; plantid++) {
                 g_Greenhouse_Plant[playerid][gid][plantid][GREENHOUSE_PLANT_OBJECT_STATUS] = GREENHOUSE_OBJECT_STATUS_SEED;

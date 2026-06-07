@@ -56,6 +56,11 @@ new const g_Greenhouse_ObjectConfig[GREENHOUSE_OBJECT_STATUS][GREENHOUSE_OBJECT_
 	}
 };
 
+enum GREENHOUSE_IMPROVE {
+	GREENHOUSE_IMPROVE_INVALID = -1,
+	GREENHOUSE_IMPROVE_X2				// x2 усорение роста
+}
+
 enum GREENHOUSE {
 	GREENHOUSE_MYSQL_ID,														// MySQL id
 	GREENHOUSE_ID,																// id																
@@ -63,13 +68,14 @@ enum GREENHOUSE {
 	GREENHOUSE_PRODUCT_TYPE:GREENHOUSE_PRODUCT,									// Продукт
 	GREENHOUSE_SEEDS,															// количество семян (шт.)
 	GREENHOUSE_HARVEST,															// количество готового урожая (шт.)
-	GREENHOUSE_POSITION[Vector3D]												// позиция теплицы
+	GREENHOUSE_POSITION[Vector3D],												// позиция теплицы
+	bool:GREENHOUSE_IMPROVEMENTS[GREENHOUSE_IMPROVE]							// улучшения теплицы
 }
 
 new g_Greenhouse[MAX_PLAYERS][MAX_PLAYER_GREENHOUSE][GREENHOUSE];
 
 new Iterator:g_iGreenhousePlayer<MAX_PLAYERS>;
 
-forward Greenhouse_Process();
+forward Greenhouse_ProcessAll();
 forward Greenhouse_OnLoad(playerid, key);
 forward Greenhouse_OnCreated(playerid, key, slot);
