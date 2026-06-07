@@ -16,3 +16,4 @@ plugins/*
 server.json
 *.amx
 *.so
+docker-compose.yml
