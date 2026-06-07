@@ -7,6 +7,7 @@ stock bool:GreenhousePlant_IsValid(const this[GREENHOUSE_PLANT]) {
 }
 
 stock GreenhousePlant_UpdateRender(this[GREENHOUSE_PLANT]) {
+	dbg("GreenhousePlant_UpdateRender");
 	new objectid = this[GREENHOUSE_PLANT_OBJECT_ID];
 	if (objectid != INVALID_STREAMER_ID) {
 		DestroyDynamicObject(objectid);
@@ -33,7 +34,7 @@ stock GreenhousePlant_UpdateRender(this[GREENHOUSE_PLANT]) {
 	);
 
 	if (objectid == INVALID_STREAMER_ID) {
-		printf("[WARNING] Greenhouse_UpdateRender | objectid == INVALID_STREAMER_ID");
+		dbg("[WARNING] Greenhouse_UpdateRender | objectid == INVALID_STREAMER_ID");
 		return;
 	}
 
@@ -58,6 +59,10 @@ stock GreenhousePlant_Init(this[GREENHOUSE_PLANT], green_house[GREENHOUSE], slot
 }
 
 stock GreenhousePlant_Finish(this[GREENHOUSE_PLANT], green_house[GREENHOUSE]) {
+	dbg("GreenhousePlant_Finish");
+
+	++green_house[GREENHOUSE_HARVEST];
+
 	if (green_house[GREENHOUSE_SEEDS] >= GREENHOUSE_SEEDS_ONE_PLANT) {
 		this[GREENHOUSE_PLANT_OBJECT_STATUS] = GREENHOUSE_OBJECT_STATUS_SEED;
 		green_house[GREENHOUSE_SEEDS] -= GREENHOUSE_SEEDS_ONE_PLANT;
@@ -73,12 +78,13 @@ stock GreenhousePlant_Update(this[GREENHOUSE_PLANT], green_house[GREENHOUSE]) {
 		return;
 	}
 
-	if (this[GREENHOUSE_PLANT_OBJECT_STATUS] < GREENHOUSE_OBJECT_STATUS_HARV) {
-		this[GREENHOUSE_PLANT_OBJECT_STATUS]++;
-	} else {
+	if (this[GREENHOUSE_PLANT_OBJECT_STATUS] == GREENHOUSE_OBJECT_STATUS_HARV) {
 		GreenhousePlant_Finish(this, green_house);
+	} else {
+		this[GREENHOUSE_PLANT_OBJECT_STATUS]++;
 	}
 
+	dbg("GreenhousePlant_Update | status = %i", _:this[GREENHOUSE_PLANT_OBJECT_STATUS]);
 	GreenhousePlant_UpdateRender(this);
 	return;
 }
@@ -98,7 +104,7 @@ stock GreenhousePlant_GetLessGrowed(const green_house[GREENHOUSE]) {
 			continue;
 		}
 
-		if (this[GREENHOUSE_PLANT_OBJECT_STATUS] >= max_status) {
+		if (this[GREENHOUSE_PLANT_OBJECT_STATUS] > max_status) {
 			continue;
 		}
 
@@ -108,11 +114,13 @@ stock GreenhousePlant_GetLessGrowed(const green_house[GREENHOUSE]) {
 	return INVALID_GREENHOUSE_PLANT_ID;
 }
 
-stock GreenhousePlant_Clear(const this[GREENHOUSE_PLANT]) {
+stock GreenhousePlant_Clear(this[GREENHOUSE_PLANT]) {
 	new objectid = this[GREENHOUSE_PLANT_OBJECT_ID];
 	if (objectid != INVALID_STREAMER_ID) {
 		DestroyDynamicObject(objectid);
 	}
 
+	this[GREENHOUSE_PLANT_OBJECT_ID] 		= INVALID_STREAMER_ID;
+	this[GREENHOUSE_PLANT_OBJECT_STATUS] 	= GREENHOUSE_OBJECT_STATUS_NONE;
 	return;
 }

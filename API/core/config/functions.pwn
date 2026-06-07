@@ -1,7 +1,7 @@
 stock bool:Config_Load() {
 	new Node:node;
 	if (JSON_ParseFile("scriptfiles/config/server.json", node) != 0) {
-		printf("Failed to parse configuration file [scriptfiles/config/server.json]");
+		dbg("Failed to parse configuration file [scriptfiles/config/server.json]");
 		return false;
 	}
 

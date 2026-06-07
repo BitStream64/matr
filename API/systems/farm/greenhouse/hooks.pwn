@@ -21,8 +21,18 @@ hook OnPlayerDisconnect(playerid) {
 }
 
 hook stock Main() {
+	for (new playerid = 0; playerid < MAX_PLAYERS; playerid++) {
+		for (new gid = 0; gid < MAX_PLAYER_GREENHOUSE; gid++) {
+			g_Greenhouse[playerid][gid][GREENHOUSE_PLAYER_ID] = playerid;
+			g_Greenhouse[playerid][gid][GREENHOUSE_ID] = gid;
+			Greenhouse_Clear(g_Greenhouse[playerid][gid]);
+		}
+	}
+
+	Greenhouse_CreateTable();
+
 	new interval = floatround(GREENHOUSE_HARVEST_INTERVAL / MAX_GREENHOUSE_PLANTS / _:GREENHOUSE_OBJECT_STATUS);
 	SetTimer(__nameof(Greenhouse_Process), interval * 1000, true);
-	print("Greenhouse_Process has been created");
+	dbg("Greenhouse_Process has been created");
 	return continue();
 }

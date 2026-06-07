@@ -5,3 +5,7 @@ stock bool:Math_IsPlayerInRangeOfVector3D(playerid, const vector[Vector3D], Floa
 	new Float:distance = floatsqroot(floatsq(playerX - x) + floatsq(playerY - y));
 	return distance <= range;
 }
+
+stock Math_GetPlayerPos(playerid, vector[Vector3D]) {
+	return GetPlayerPos(playerid, vector[x], vector[y], vector[z]);
+}

@@ -2,7 +2,6 @@ new const GREENHOUSE_TABLE_NAME[] 				= "green_house";
 const MAX_PLAYER_GREENHOUSE 					= 5;
 const Float:GREENHOUSE_ZONE_DISTANCE 			= 5.0; 	// max distance to greenhouse for interaction
 const MAX_GREENHOUSE_OBJECTS 					= 30; 	// Кол-во объектов для визуализации роста урожая
-const MAX_GREENHOUSE_PLANTS 					= 10; 	// Максимальное количество растений в одной теплице
 const MAX_GREENHOUSE_ROWS 						= 2; 	// Кол-во рядов для растений в теплице (render)
 const GREENHOUSE_PLANTS_DISTANCE 				= 5;	// Расстояние между растениями
 const Float:MAX_GREENHOUSE_PLANTS_STREAM 		= 50.0;
@@ -73,3 +72,4 @@ new Iterator:g_iGreenhousePlayer<MAX_PLAYERS>;
 
 forward Greenhouse_Process();
 forward Greenhouse_OnLoad(playerid, key);
+forward Greenhouse_OnCreated(playerid, key, slot);

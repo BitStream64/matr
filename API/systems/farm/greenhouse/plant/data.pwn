@@ -1,4 +1,5 @@
-const INVALID_GREENHOUSE_PLANT_ID = -1;
+const INVALID_GREENHOUSE_PLANT_ID 	= -1;
+const MAX_GREENHOUSE_PLANTS 		= 10; 	// Максимальное количество растений в одной теплице
 
 enum GREENHOUSE_PLANT {
 	GREENHOUSE_PLANT_OBJECT_ID,

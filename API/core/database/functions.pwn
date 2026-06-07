@@ -14,17 +14,17 @@ stock bool:Database_Connect() {
     );
 
     if (g_Database == MYSQL_INVALID_HANDLE) {
-        print("MySQL connection failed.");
+        dbg("MySQL connection failed.");
         return false;
     }
 
     if (mysql_errno(g_Database) != 0) {
-        print("MySQL connection error");
+        dbg("MySQL connection error");
         return false;
     }
 
     mysql_set_charset(g_Config[CONFIG_DATABASE_CHARSET], g_Database);
-    print("MySQL connected");
+    dbg("MySQL connected");
 	return true;
 }
 
@@ -32,7 +32,7 @@ stock Database_Disconnect() {
     if (g_Database != MYSQL_INVALID_HANDLE) {
         mysql_close(g_Database);
         g_Database = MYSQL_INVALID_HANDLE;
-        print("MySQL disconnected");
+        dbg("MySQL disconnected");
     }
 
     return;
