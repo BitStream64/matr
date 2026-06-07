@@ -1,0 +1,12 @@
+{
+	"NAME": "Matreshka",
+	"DATABASE": {
+		"HOST": "db",
+		"USER": "server",
+		"PASSWORD": "12345",
+		"TABLE": "data",
+		"PORT": 3306,
+		"AUTORECONNECT": true,
+		"CHARSET": "utf8mb4"
+	}
+}

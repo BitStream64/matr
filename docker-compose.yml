@@ -1,0 +1,39 @@
+services:
+  build:
+    image: ghcr.io/southclaws/sampctl:1.13.0
+    platform: linux/amd64
+    working_dir: /samp
+    profiles: ["build"]
+    volumes:
+      - .:/samp
+    entrypoint: ["sh", "-lc", "sampctl ensure && sampctl build"]
+
+  db:
+    image: mariadb:latest
+    platform: linux/amd64
+    profiles: ["run"]
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: data
+      MYSQL_USER: server
+      MYSQL_PASSWORD: 12345
+      TZ: UTC
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+
+  run:
+    image: ghcr.io/southclaws/sampctl:1.13.0
+    platform: linux/amd64
+    working_dir: /samp
+    profiles: ["run"]
+    depends_on:
+      - db
+    volumes:
+      - .:/samp
+    entrypoint: ["sh", "-lc", "sampctl build && sampctl run --forceEnsure --forceBuild"]
+
+volumes:
+  mariadb_data:

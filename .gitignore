@@ -13,7 +13,5 @@ pawn.lock
 .DS_Store
 logs/*
 plugins/*
-server.json
 *.amx
 *.so
-docker-compose.yml
