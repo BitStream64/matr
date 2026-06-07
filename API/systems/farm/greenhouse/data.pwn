@@ -12,8 +12,7 @@ const GREENHOUSE_HARVEST_INTERVAL				= 10 * 60; // seconds
 
 enum {
 	INVALID_GREENHOUSE_ID 		= -1,
-	INVALID_GREENHOUSE_OWNER 	= -2,
-	INVALID_GREENHOUSE_PLANT_ID = -3
+	INVALID_GREENHOUSE_OWNER 	= -2
 }
 
 enum GREENHOUSE_PRODUCT_TYPE {
@@ -25,7 +24,7 @@ enum GREENHOUSE_PRODUCT_TYPE {
 enum GREENHOUSE_OBJECT_STATUS {
 	GREENHOUSE_OBJECT_STATUS_NONE = -1, 	// пустой слот, нет объекта
 	GREENHOUSE_OBJECT_STATUS_SEED, 			// маленькое семечко еле-заметное
-	GREENHOUSE_OBJECT_STATUS_SMPLANT, 		// уже заметный росток, но ещё не растение
+	GREENHOUSE_OBJECT_STATUS_SPLANT, 		// уже заметный росток, но ещё не растение
 	GREENHOUSE_OBJECT_STATUS_PLANT, 		// полноценное растение, но ещё не плодоносящее
 	GREENHOUSE_OBJECT_STATUS_HARV 			// созревший урожай, готовый к сбору
 }
@@ -57,14 +56,6 @@ new const g_Greenhouse_ObjectConfig[GREENHOUSE_OBJECT_STATUS][GREENHOUSE_OBJECT_
 		{ 0.00, 0.00, 554.34 }
 	}
 };
-
-enum GREENHOUSE_PLANT {
-	GREENHOUSE_PLANT_OBJECT_ID,
-	GREENHOUSE_OBJECT_STATUS:GREENHOUSE_PLANT_OBJECT_STATUS,
-	GREENHOUSE_PLANT_POSITION[Vector3D]
-}
-
-new g_Greenhouse_Plant[MAX_PLAYERS][MAX_PLAYER_GREENHOUSE][MAX_GREENHOUSE_PLANTS][GREENHOUSE_PLANT];
 
 enum GREENHOUSE {
 	GREENHOUSE_MYSQL_ID,														// MySQL id

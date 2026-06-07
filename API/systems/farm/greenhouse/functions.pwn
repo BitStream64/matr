@@ -14,113 +14,6 @@ stock bool:Greenhouse_IsValid(const this[GREENHOUSE]) {
 	return true;
 }
 
-stock bool:GreenhousePlant_IsValid(const this[GREENHOUSE_PLANT]) {
-	if (this[GREENHOUSE_PLANT_OBJECT_STATUS] == GREENHOUSE_OBJECT_STATUS_NONE) {
-		return false;
-	}
-
-	return true;
-}
-
-stock GreenhousePlant_UpdateRender(this[GREENHOUSE_PLANT]) {
-	new objectid = this[GREENHOUSE_PLANT_OBJECT_ID];
-	if (objectid != INVALID_STREAMER_ID) {
-		DestroyDynamicObject(objectid);
-	}
-	
-	if (!GreenhousePlant_IsValid(this)) {
-		return;
-	}
-
-	new GREENHOUSE_OBJECT_STATUS:status = this[GREENHOUSE_PLANT_OBJECT_STATUS];
-
-	objectid = CreateDynamicObject(
-		g_Greenhouse_ObjectConfig[status][GREENHOUSE_OBJECT_MODEL_ID],
-		this[GREENHOUSE_PLANT_POSITION][x],
-		this[GREENHOUSE_PLANT_POSITION][y],
-		this[GREENHOUSE_PLANT_POSITION][z],
-		g_Greenhouse_ObjectConfig[status][GREENHOUSE_OBJECT_ROTATION][x],
-		g_Greenhouse_ObjectConfig[status][GREENHOUSE_OBJECT_ROTATION][y],
-		g_Greenhouse_ObjectConfig[status][GREENHOUSE_OBJECT_ROTATION][z],
-		DEFAULT_WORLD_ID,
-		DEFAULT_INTERIOR_ID,
-		.streamdistance = MAX_GREENHOUSE_PLANTS_STREAM,
-		.drawdistance = MAX_GREENHOUSE_PLANTS_DRAW
-	);
-
-	if (objectid == INVALID_STREAMER_ID) {
-		printf("[WARNING] Greenhouse_UpdateRender | objectid == INVALID_STREAMER_ID");
-		return;
-	}
-
-	this[GREENHOUSE_PLANT_OBJECT_ID] = objectid;
-	return;
-}
-
-stock GreenhousePlant_Init(this[GREENHOUSE_PLANT], green_house[GREENHOUSE], slot) {
-	new
-		offsetX = GREENHOUSE_PLANTS_DISTANCE * slot,
-		offsetY = GREENHOUSE_PLANTS_DISTANCE;
-	
-	this[GREENHOUSE_PLANT_POSITION][x] = slot % MAX_GREENHOUSE_ROWS != 0 ? green_house[GREENHOUSE_POSITION][x] + offsetX : green_house[GREENHOUSE_POSITION][x],
-	this[GREENHOUSE_PLANT_POSITION][y] = slot % MAX_GREENHOUSE_ROWS == 0 ? green_house[GREENHOUSE_POSITION][y] + offsetY : green_house[GREENHOUSE_POSITION][y];
-	this[GREENHOUSE_PLANT_POSITION][z] = green_house[GREENHOUSE_POSITION][z];
-
-	if (green_house[GREENHOUSE_SEEDS] >= GREENHOUSE_SEEDS_ONE_PLANT) {
-		this[GREENHOUSE_PLANT_OBJECT_STATUS] = GREENHOUSE_OBJECT_STATUS_SEED;
-		green_house[GREENHOUSE_SEEDS] -= GREENHOUSE_SEEDS_ONE_PLANT;
-	}
-	return;
-}
-
-stock GreenhousePlant_Finish(this[GREENHOUSE_PLANT], green_house[GREENHOUSE]) {
-	if (green_house[GREENHOUSE_SEEDS] >= GREENHOUSE_SEEDS_ONE_PLANT) {
-		this[GREENHOUSE_PLANT_OBJECT_STATUS] = GREENHOUSE_OBJECT_STATUS_SEED;
-		green_house[GREENHOUSE_SEEDS] -= GREENHOUSE_SEEDS_ONE_PLANT;
-	} else {
-		this[GREENHOUSE_PLANT_OBJECT_STATUS] = GREENHOUSE_OBJECT_STATUS_NONE;
-	}
-	
-	return;
-}
-
-stock GreenhousePlant_Update(this[GREENHOUSE_PLANT], green_house[GREENHOUSE]) {
-	if (!GreenhousePlant_IsValid(this)) {
-		return;
-	}
-
-	if (this[GREENHOUSE_PLANT_OBJECT_STATUS] < GREENHOUSE_OBJECT_STATUS_HARV) {
-		this[GREENHOUSE_PLANT_OBJECT_STATUS]++;
-	} else {
-		GreenhousePlant_Finish(this, green_house);
-	}
-
-	GreenhousePlant_UpdateRender(this);
-	return;
-}
-
-stock Greenhouse_GetLessGrowedPlant(const this[GREENHOUSE]) {
-	new gid = this[GREENHOUSE_ID];
-
-	new 
-		GREENHOUSE_OBJECT_STATUS:max_status = GREENHOUSE_OBJECT_STATUS_HARV,
-		playerid = this[GREENHOUSE_PLAYER_ID];
-
-	for (new plantid = 0; plantid < MAX_GREENHOUSE_PLANTS; plantid++) {
-		if (!GreenhousePlant_IsValid(g_Greenhouse_Plant[playerid][gid][plantid])) {
-			continue;
-		}
-
-		if (g_Greenhouse_Plant[playerid][gid][plantid][GREENHOUSE_PLANT_OBJECT_STATUS] >= max_status) {
-			continue;
-		}
-
-		return plantid;
-	}
-
-	return INVALID_GREENHOUSE_PLANT_ID;
-}
-
 stock Greenhouse_Update(this[GREENHOUSE]) {
 	if (!Greenhouse_IsValid(this)) {
 		return;
@@ -130,7 +23,7 @@ stock Greenhouse_Update(this[GREENHOUSE]) {
 		//slot = random(MAX_GREENHOUSE_PLANTS)
 
 	// Гарантируем, что все доступные растения вырастут за GREENHOUSE_HARVEST_INTERVAL секунд
-	new	slot = Greenhouse_GetLessGrowedPlant(this);
+	new	slot = GreenhousePlant_GetLessGrowed(this);
 
 	if (slot == INVALID_GREENHOUSE_PLANT_ID) {
 		return;
@@ -216,15 +109,6 @@ stock Greenhouse_Load(playerid) {
 		MAX_PLAYER_GREENHOUSE
 	);
 	mysql_tquery(Database_Get(), String4096, __nameof(Greenhouse_OnLoad), "ii", playerid, Player_GetKey(playerid));
-
-	return;
-}
-
-stock GreenhousePlant_Clear(this[GREENHOUSE_PLANT]) {
-	new objectid = this[GREENHOUSE_PLANT_OBJECT_ID];
-	if (objectid != INVALID_STREAMER_ID) {
-		DestroyDynamicObject(objectid);
-	}
 
 	return;
 }

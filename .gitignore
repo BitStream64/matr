@@ -13,6 +13,5 @@ pawn.lock
 .DS_Store
 logs/*
 plugins/*
-scriptfiles/config/*
 *.amx
 *.so
