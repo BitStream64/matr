@@ -3,11 +3,14 @@
 #include <a_samp>
 #include <a_mysql>
 #include <json>
+#include <sscanf2>
+#include <streamer>
 
 #if defined LINUX_BUILD
 	#pragma compat 1
 #endif
 #include <YSI_Data\y_foreach>
+#include <YSI_Coding\y_va>
 #if defined LINUX_BUILD
 	#pragma compat 0
 #endif
@@ -17,9 +20,18 @@
 #endif
 
 #define MAX_PLAYERS 10
+#define COLOR_INFO 0xFFCC00FF
+
+const DEFAULT_INTERIOR_ID = 0;
+const DEFAULT_WORLD_ID = 0;
+const INVALID_MYSQL_ID = -1;
 
 forward Main();
-new String4096[4096] = EOS;
+
+new
+	String64[64] 		= EOS,
+	String256[256]		= EOS,
+	String4096[4096] 	= EOS;
 
 #include "API/main.pwn"
 

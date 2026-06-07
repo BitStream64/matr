@@ -18,6 +18,13 @@ stock bool:Player_IsValid(playerid, key) {
 	return true;
 }
 
+stock Player_Info(playerid, const message[], va_args<>) {
+	static str[sizeof(String256)];
+	format(str, sizeof str, "[Информация] %s", message, va_start<2>);
+	SendClientMessage(playerid, COLOR_INFO, str);
+	return;
+}
+
 stock Player_LogIn(playerid, Cache:cache) {
 	// TODO: insert, compare password
 
@@ -89,5 +96,5 @@ stock Player_BuildUniqueID(playerid) {
 stock Player_OnLogged(playerid) {
 	Iter_Add(g_iPlayer, playerid);
 	printf("[dbg] player %i successfully logged to server", playerid);
-	return;
+	return 1;
 }
